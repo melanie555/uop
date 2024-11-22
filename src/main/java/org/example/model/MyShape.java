@@ -9,6 +9,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 
+// Класс MyShape
 public class MyShape {
     private Color color;
     private RectangularShape shape;
@@ -22,7 +23,6 @@ public class MyShape {
         fb.setShape(shape);
     }
 
-    // TODO: 25.10.2024  Попробовать вызовы через разные конструкторы, затем переделать создание через фабрику
     public MyShape() {
         color = Color.BLUE;
         shape = new Rectangle2D.Double();
@@ -31,7 +31,6 @@ public class MyShape {
         fb.setShape(shape);
     }
 
-    // TODO: 25.10.2024  Попробовать вызовы через разные конструкторы, затем переделать создание через фабрику
     public MyShape(Color color, RectangularShape shape, FillBehavior fb) {
         this.color = color;
         this.shape = shape;
@@ -56,6 +55,19 @@ public class MyShape {
 
     void draw(Graphics2D g) {
         fb.draw(g);
+    }
 
+    // **Добавленные геттеры:**
+    public Color getColor() {
+        return color;
+    }
+
+    public RectangularShape getShape() {
+        return shape;
+    }
+
+    public FillBehavior getFb() {
+        return fb;
     }
 }
+
