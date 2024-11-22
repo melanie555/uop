@@ -2,72 +2,49 @@ package org.example.model;
 
 import org.example.model.shape.fill.Fill;
 import org.example.model.shape.fill.FillBehavior;
+import org.example.model.shape.fill.NoFill;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
+import java.util.Collection;
 
-// Класс MyShape
-public class MyShape {
-    private Color color;
-    private RectangularShape shape;
+public class MyShape implements Cloneable{
     private FillBehavior fb;
 
-    public MyShape(RectangularShape shape) {
-        this.shape = shape;
-        color = Color.GRAY;
-        fb = new Fill();
-        fb.setColor(color);
-        fb.setShape(shape);
+    public Color getColor() {
+        return fb.color();
     }
-
-    public MyShape() {
-        color = Color.BLUE;
-        shape = new Rectangle2D.Double();
-        fb = new Fill();
-        fb.setColor(color);
-        fb.setShape(shape);
-    }
-
-    public MyShape(Color color, RectangularShape shape, FillBehavior fb) {
-        this.color = color;
-        this.shape = shape;
-        this.fb = fb;
-        this.fb.setShape(shape);
-        this.fb.setColor(color);
-    }
-
     public void setFb(FillBehavior fb) {
         this.fb = fb;
-        fb.setShape(shape);
-        fb.setColor(color);
     }
 
     public void setShape(RectangularShape shape) {
-        this.shape = shape;
+        fb.setShape(shape);
     }
 
     public void setFrame(Point2D x, Point2D y) {
-        shape.setFrameFromDiagonal(x, y);
+        fb.shape().setFrameFromDiagonal(x, y);
     }
 
     void draw(Graphics2D g) {
         fb.draw(g);
-    }
 
-    // **Добавленные геттеры:**
-    public Color getColor() {
-        return color;
+    }
+    @Override
+    public MyShape clone() {
+        MyShape clone = new MyShape();
+        clone.fb = fb.clone();
+        RectangularShape another = (RectangularShape) fb.shape().clone();
+        clone.setShape(another);
+        clone.fb.setShape(another);
+        return clone;
     }
 
     public RectangularShape getShape() {
-        return shape;
-    }
-
-    public FillBehavior getFb() {
-        return fb;
+        return fb.shape();
     }
 }
 

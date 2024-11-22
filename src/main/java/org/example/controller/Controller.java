@@ -2,50 +2,72 @@ package org.example.controller;
 
 import org.example.model.Model;
 import org.example.model.MyShape;
-import org.example.model.shape.fill.NoFill;
+import org.example.model.shape.factory.MenuState;
+import org.example.model.shape.factory.MyShapeFactory;
+import org.example.model.shape.fill.Fill;
 import org.example.view.MyFrame;
 import org.example.view.MyPanel;
-import org.example.model.shape.factory.ShapeType;
-import org.example.model.shape.factory.MyShapeFactory;
+
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Ellipse2D;
 
-// TODO: 24.10.2024 Сделать singleton класс
-public class Controller {
+public class Controller extends MenuState {
+    private static Controller instanse;
+
+    public static synchronized Controller getInstanse() {
+        if(instanse == null)
+        {
+            instanse = new Controller();
+        }
+        return instanse;
+    }
+
     private Model model;
     private MyFrame frame;
     private MyPanel panel;
     private Point2D firstPoint;
     private Point2D secondPoint;
+    private MyShape sampleShape;
+
+    /*public MenuState getState() {
+        return state;
+
+}
+
+    public void setState(MenuState state) {
+        this.state = state;
+    }*/
+    private MenuState menu;
+
     public Controller() {
+        menu = new MenuState();
+        MyShapeFactory sFactory = MyShapeFactory.getInstance();
+        sFactory.config(menu);
         model = new Model();
-        MyShape shape = new MyShape(new Rectangle2D.Double());
-        shape.setFb(new NoFill());
-        model.setMyShape(shape);
-
-        panel = new MyPanel(this);
-        // TODO: 25.10.2024 Поменять наблюдатель на более современную реализацию
+        menu.setAction(new ActionDraw(model, sampleShape));
+        MyPanel panel = new MyPanel(this);
         model.addObserver(panel);
-
         frame = new MyFrame();
         frame.setPanel(panel);
+        Menu menuController = Menu.getInstance();
+        menuController.setState(menu);
+        menuController.setModel(model);
+        frame.setJMenuBar(menuController.createMenuBar());
+        frame.revalidate();
     }
     public void getPointOne(Point2D p){
-        firstPoint = p;
+        AppAction action = menu.getAction();
+        action.mousePressed(p);
     }
     public void getPointTwo(Point2D p){
-        secondPoint = p;
-        model.changeShape(firstPoint, secondPoint);
+        AppAction action = menu.getAction();
+        action.mouseDragged(p);
     }
 
     public void draw(Graphics2D g2) {
         model.draw(g2);
     }
-
-public MyShape createShape(ShapeType shapeType, Color color, Point2D point1, Point2D point2) {
-    Rectangle2D.Double bounds = new Rectangle2D.Double();
-    bounds.setFrameFromDiagonal(point1, point2);
-    return MyShapeFactory.createShape(shapeType, color, bounds);}
 }

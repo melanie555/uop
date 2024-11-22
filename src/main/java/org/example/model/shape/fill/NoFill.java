@@ -18,6 +18,11 @@ public class NoFill implements FillBehavior {
     }
 
     @Override
+    public Color color() {
+        return color;
+    }
+
+    @Override
     public void draw(Graphics2D g) {
         Paint paint = g.getPaint();
         g.setPaint(color);
@@ -28,5 +33,18 @@ public class NoFill implements FillBehavior {
     @Override
     public void setShape(RectangularShape s) {
         shape = s;
+    }
+
+    @Override
+    public RectangularShape shape() {
+        return shape;
+    }
+
+    @Override
+    public FillBehavior clone() {
+        NoFill nofill = new NoFill();
+        nofill.setColor(color);
+        nofill.shape = (RectangularShape) shape.clone();
+        return nofill;
     }
 }
