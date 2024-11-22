@@ -2,9 +2,11 @@ package org.example.controller;
 
 import org.example.model.Model;
 import org.example.model.MyShape;
-import org.example.model.fill.NoFill;
+import org.example.model.shape.fill.NoFill;
 import org.example.view.MyFrame;
 import org.example.view.MyPanel;
+import org.example.model.shape.factory.ShapeType;
+import org.example.model.shape.factory.MyShapeFactory;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -41,4 +43,9 @@ public class Controller {
     public void draw(Graphics2D g2) {
         model.draw(g2);
     }
+
+public MyShape createShape(ShapeType shapeType, Color color, Point2D point1, Point2D point2) {
+    Rectangle2D.Double bounds = new Rectangle2D.Double();
+    bounds.setFrameFromDiagonal(point1, point2);
+    return MyShapeFactory.createShape(shapeType, color, bounds);}
 }
