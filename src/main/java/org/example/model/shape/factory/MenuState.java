@@ -1,11 +1,8 @@
 package org.example.model.shape.factory;
 
-import org.example.controller.ActionDraw;
-import org.example.controller.AppAction;
+import org.example.controller.actions.AppAction;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 
 public class MenuState {
     private boolean fill;

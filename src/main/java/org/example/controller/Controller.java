@@ -1,18 +1,17 @@
 package org.example.controller;
 
+import org.example.controller.actions.ActionDraw;
+import org.example.controller.actions.AppAction;
 import org.example.model.Model;
 import org.example.model.MyShape;
 import org.example.model.shape.factory.MenuState;
 import org.example.model.shape.factory.MyShapeFactory;
-import org.example.model.shape.fill.Fill;
 import org.example.view.MyFrame;
 import org.example.view.MyPanel;
 
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Ellipse2D;
 
 public class Controller extends MenuState {
     private static Controller instanse;

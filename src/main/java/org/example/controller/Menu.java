@@ -1,6 +1,8 @@
 package org.example.controller;
 
 
+import org.example.controller.actions.ActionDraw;
+import org.example.controller.actions.ActionMove;
 import org.example.model.Model;
 import org.example.model.MyShape;
 import org.example.model.shape.factory.MenuState;
@@ -8,8 +10,6 @@ import org.example.model.shape.factory.ShapeType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 
 
 public class Menu extends MenuState {

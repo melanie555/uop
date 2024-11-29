@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.example.controller.actions;
 
 import org.example.model.Model;
 import org.example.model.MyShape;
@@ -46,5 +46,20 @@ public class ActionDraw implements AppAction {
         firstPoint = point;
         sampleShape.setFrame(firstPoint, secondPoint);
         model.update();
+    }
+
+    @Override
+    public void execute() {
+        
+    }
+
+    @Override
+    public void unexecute() {
+
+    }
+
+    @Override
+    public AppAction cloneAction() {
+        return null;
     }
 }

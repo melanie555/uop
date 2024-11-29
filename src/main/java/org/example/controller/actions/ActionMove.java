@@ -1,8 +1,7 @@
-package org.example.controller;
+package org.example.controller.actions;
 
 import org.example.model.Model;
 import org.example.model.MyShape;
-import org.example.model.shape.factory.MyShapeFactory;
 
 import java.awt.geom.Point2D;
 
@@ -48,5 +47,20 @@ public class ActionMove implements AppAction{
         shape.getShape().setFrameFromDiagonal(newShapeFirstPoint, newShapeSecondPoint);
         firstPoint = secondPoint;
         model.update();
+    }
+
+    @Override
+    public void execute() {
+
+    }
+
+    @Override
+    public void unexecute() {
+
+    }
+
+    @Override
+    public AppAction cloneAction() {
+        return null;
     }
 }
