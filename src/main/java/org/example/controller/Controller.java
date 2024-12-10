@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.controller.state.UndoMachine;
 import org.example.model.Model;
 import org.example.model.MyShape;
 import org.example.model.shape.factory.MenuState;
@@ -7,6 +8,7 @@ import org.example.model.shape.factory.MyShapeFactory;
 import org.example.model.shape.fill.Fill;
 import org.example.view.MyFrame;
 import org.example.view.MyPanel;
+import org.example.view.menu.MenuCreator;
 
 
 import java.awt.*;
@@ -41,6 +43,7 @@ public class Controller extends MenuState {
         this.state = state;
     }*/
     private MenuState menu;
+    private UndoMachine machine;
 
     public Controller() {
         menu = new MenuState();
@@ -52,15 +55,20 @@ public class Controller extends MenuState {
         model.addObserver(panel);
         frame = new MyFrame();
         frame.setPanel(panel);
-        Menu menuController = Menu.getInstance();
-        menuController.setState(menu);
-        menuController.setModel(model);
-        frame.setJMenuBar(menuController.createMenuBar());
+        machine = new UndoMachine();
+        MenuCreator menuCreator = MenuCreator.getInstance();
+        menuCreator.setState(menu);
+        menuCreator.setModel(model);
+        menuCreator.setUndoMachine(machine);
+        frame.setJMenuBar(menuCreator.createMenuBar());
+        frame.add(menuCreator.createToolBar(), BorderLayout.WEST);
         frame.revalidate();
     }
     public void getPointOne(Point2D p){
         AppAction action = menu.getAction();
         action.mousePressed(p);
+        machine.add(action.cloneAction());
+        machine.updateButtons();
     }
     public void getPointTwo(Point2D p){
         AppAction action = menu.getAction();

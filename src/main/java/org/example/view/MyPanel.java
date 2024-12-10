@@ -1,5 +1,6 @@
 package org.example.view;
 
+import org.example.controller.ActionDraw;
 import org.example.controller.Controller;
 
 import java.awt.Graphics;

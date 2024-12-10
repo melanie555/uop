@@ -6,9 +6,10 @@ import org.example.model.shape.factory.MyShapeFactory;
 
 import java.awt.geom.Point2D;
 
-public class ActionMove implements AppAction{
+public class ActionMove implements AppAction {
     private Model model;
     private MyShape shape;
+    private MyShape moveableShape;
     private Point2D firstPoint;
     private Point2D secondPoint;
 
@@ -25,12 +26,13 @@ public class ActionMove implements AppAction{
                 .filter(myShape -> myShape.getShape().contains(point))
                 .findFirst()
                 .orElse(null);
+        moveableShape = shape;
     }
 
     @Override
     public void mouseDragged(Point2D point) {
         secondPoint = point;
-        if (shape == null){
+        if (shape == null) {
             return;
         }
 
@@ -46,7 +48,29 @@ public class ActionMove implements AppAction{
                 shape.getShape().getMinY() + deltaY);
 
         shape.getShape().setFrameFromDiagonal(newShapeFirstPoint, newShapeSecondPoint);
+        moveableShape.getShape().setFrameFromDiagonal(newShapeFirstPoint, newShapeSecondPoint);
         firstPoint = secondPoint;
         model.update();
+    }
+
+    @Override
+    public void execute() {
+        /*model.addCurrentShape(moveableShape);
+        model.update();*/
+    }
+
+    @Override
+    public void unexecute() {
+        /*moveableShape = model.getLastShape();
+        model.removeLastShape();
+        model.update();*/
+    }
+
+    @Override
+    public AppAction cloneAction() {
+        ActionMove actionMove = new ActionMove(model);
+        actionMove.shape = shape.clone();
+        actionMove.moveableShape = moveableShape;
+        return actionMove;
     }
 }

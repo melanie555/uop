@@ -22,6 +22,20 @@ public class Model extends Observable {
     public void addCurrentShape(MyShape sampleShape){
         shapeList.add(sampleShape);
     }
+    public MyShape getLastShape() {
+        int size = shapeList.size();
+        return shapeList.isEmpty() ? null : shapeList.get(size - 1);
+    }
+
+    public void  removeLastShape() {
+        if(shapeList == null) {
+            return;
+        } else {
+            int size = shapeList.size();
+            shapeList.remove(size - 1);
+        }
+
+    }
 
     public void setMyShape(MyShape myShape) {
         this.currentshape = myShape;

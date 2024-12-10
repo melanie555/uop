@@ -10,6 +10,7 @@ import java.awt.geom.Point2D;
 public class ActionDraw implements AppAction {
     private MyShape sampleShape;
 
+    private MyShape drawableShape;
     private Point2D firstPoint;
     private Point2D secondPoint;
     private Model model;
@@ -37,6 +38,7 @@ public class ActionDraw implements AppAction {
     public void mousePressed(Point2D point) {
         secondPoint = point;
         sampleShape = factory.createShape();
+        drawableShape = sampleShape;
         model.addCurrentShape(sampleShape);
         model.update();
     }
@@ -45,6 +47,26 @@ public class ActionDraw implements AppAction {
     public void mouseDragged(Point2D point) {
         firstPoint = point;
         sampleShape.setFrame(firstPoint, secondPoint);
+        drawableShape.setFrame(firstPoint, secondPoint);
         model.update();
     }
+    @Override
+    public void execute() {
+        model.addCurrentShape(drawableShape);
+        model.update();
+    }
+    @Override
+    public void unexecute() {
+        drawableShape = model.getLastShape();
+        model.removeLastShape();
+        model.update();
+    }
+    @Override
+    public AppAction cloneAction() {
+        ActionDraw actionDraw = new ActionDraw(model, sampleShape);
+        actionDraw.sampleShape = sampleShape.clone();
+        actionDraw.drawableShape = drawableShape;
+        return actionDraw;
+    }
+
 }
