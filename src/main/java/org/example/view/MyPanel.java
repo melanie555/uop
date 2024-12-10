@@ -45,3 +45,4 @@ public class MyPanel extends JPanel implements Observer {
     }
 
 }
+
